@@ -2,9 +2,10 @@ from kandinsky import *
 from ion import *
 from time import *
 import kandinsky
-from memoire import *
+from save_generator import *
 from op import *
 from copy import *
+import pickle
 fill_rect(0,0,320,222,'black')
 #texture
 #set_pixel(10,10,kandinsky.color(255,255,0))
@@ -92,13 +93,21 @@ def dico(block):
     blockM+=deep_copy([block[b]])
     blockM[b][4]=ref.get(block[b][4],"no")
   return blockM
-carburantT=cap()[0]
-amorti=cap()[3]
+try:
+  f=open("sauvegard.pkl", "rb")
+except FileNotFoundError :
+  new_save()
+  f=open("sauvegard.pkl", "rb")
+save = pickle.load(f)
+f.close()
+carburantT=save["carburantT"]
+argent=save["argent"]
+Ncarburant=save["Ncarburant"]
+amorti=save["amorti"]
+Namorti=save["Namorti"]
 carburantR=carburantT
 fin=1
-argent=cap()[1]
-Ncarburant=cap()[2]
-Namorti=cap()[4]
+
 parametre2=0
 #Prix amelioration
 Pcarburant=16/3
@@ -123,8 +132,10 @@ while fin!=2:
         Menu(parametre*30,0)
       if keydown(KEY_RIGHT):
         if parametre==1:
-          print([round(carburantT),round(argent,1),round(Ncarburant),round(amorti),round(Namorti)])
-          raise ValueError
+          save={"carburantT":round(carburantT),"argent":round(argent,1),"Ncarburant":round(Ncarburant),"amorti":round(amorti),"Namorti":round(Namorti)}
+          with open('sauvegard.pkl', 'wb') as f:  # open a text file
+            pickle.dump(save, f)  # serialize the list
+          exit(kandinsky)
         if parametre==0:
           fin=2
         if parametre==-1:
