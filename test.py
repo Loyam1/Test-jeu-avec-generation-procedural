@@ -1,11 +1,14 @@
+from itertools import repeat
+from time import sleep
+
 import pygame
 import random
-
+cote_ecran=500
 
 class Entities:
   def __init__(self, x, y, longueur, largueur, color, velocity):
     self.rect = pygame.Rect(x, y, longueur, largueur)
-    self.speed = 10
+    self.speed = 5
     self.velocity = velocity
     self.color = color
 
@@ -22,7 +25,8 @@ class Player (Entities):
 class Ball (Entities):
   def __init__(self, x, y, longueur, largueur, color, velocity):
     super().__init__(x, y, longueur, largueur, color, velocity)
-
+  def rebond (self):
+    return  -random.randint(int(self.velocity[1]*10)-5,int(self.velocity[1]*10)+5)/10
 
 
 class Game:
@@ -31,8 +35,8 @@ class Game:
     self.running = True
     self.clock = pygame.time.Clock()
 
-    self.player = Player(10, 350, 20, 100, "white", [0, 0])
-    self.ball = Ball(300, 390, 20, 20,  "red", [1, random.randint(-5,5)/10])
+    self.player = Player(cote_ecran//80, cote_ecran//(1/0.4375), 20, cote_ecran//8, "white", [0, 0])
+    self.ball = Ball(cote_ecran//2, cote_ecran//(1/0.4875), cote_ecran//40, cote_ecran//40,  "red", [1, random.randint(-5,5)/10])
 
 
   def handling_events(self):
@@ -53,10 +57,25 @@ class Game:
     self.player.move()
     self.ball.move()
     if self.ball.rect.colliderect(self.player.rect):
-      self.ball.velocity=[-self.ball.velocity[0], random.randint(int(self.ball.velocity[1]*10)-5,int(self.ball.velocity[1]*10)+5)/10]
-    if self.ball.rect.right >= 800 :
-      self.ball.velocity=[-self.ball.velocity[0], random.randint(int(self.ball.velocity[1]*10)-5,int(self.ball.velocity[1]*10)+5)/10]
-
+      self.ball.velocity=[-self.ball.velocity[0],self.ball.rebond()]
+    elif self.ball.rect.left <= 5 :
+      self.ball.velocity=[0,0]
+      for i in range(0,4):
+        self.ball.color="black"
+        self.display()
+        pygame.display.flip()
+        sleep(0.5)
+        self.ball.color = "red"
+        self.display()
+        pygame.display.flip()
+      self.player = Player(cote_ecran // 80, cote_ecran // (1 / 0.4375), 20, cote_ecran // 8, "white", [0, 0])
+      self.ball = Ball(cote_ecran // 2, cote_ecran // (1 / 0.4875), cote_ecran // 40, cote_ecran // 40, "red",[1, random.randint(-5, 5) / 10])
+    elif self.ball.rect.right >= cote_ecran :
+      self.ball.velocity=[-self.ball.velocity[0],self.ball.rebond()]
+    elif self.ball.rect.top <= 0 :
+      self.ball.velocity=[self.ball.velocity[0],self.ball.rebond()]
+    elif self.ball.rect.bottom >= cote_ecran :
+      self.ball.velocity=[self.ball.velocity[0],self.ball.rebond()]
 
   def display(self):
     self.screen.fill("black")
@@ -73,7 +92,7 @@ class Game:
 
 
 pygame.init()
-screen = pygame.display.set_mode((800, 800))
+screen = pygame.display.set_mode((cote_ecran, cote_ecran))
 game = Game(screen)
 game.run()
 
