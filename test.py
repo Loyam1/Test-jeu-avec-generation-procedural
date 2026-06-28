@@ -4,6 +4,8 @@ from time import sleep
 import pygame
 import random
 cote_ecran=500
+historique_ball =[]
+
 
 class Entities:
   def __init__(self, x, y, longueur, largueur, color, velocity):
@@ -30,14 +32,16 @@ class Ball (Entities):
 
 
 class Game:
-  def __init__(self, screen):
+  def __init__(self, screen,):
     self.screen = screen
     self.running = True
     self.clock = pygame.time.Clock()
+    self.point = 0
 
+
+    historique_ball.append(Ball(cote_ecran // 2, cote_ecran // (1 / 0.4875), cote_ecran // 40, cote_ecran // 40, "red",[1, random.randint(-5, 5) / 10]))
+    self.ball = historique_ball[-1]
     self.player = Player(cote_ecran//80, cote_ecran//(1/0.4375), 20, cote_ecran//8, "white", [0, 0])
-    self.ball = Ball(cote_ecran//2, cote_ecran//(1/0.4875), cote_ecran//40, cote_ecran//40,  "red", [1, random.randint(-5,5)/10])
-
 
   def handling_events(self):
     for event in pygame.event.get():
@@ -58,18 +62,21 @@ class Game:
     self.ball.move()
     if self.ball.rect.colliderect(self.player.rect):
       self.ball.velocity=[-self.ball.velocity[0],self.ball.rebond()]
+      self.point+=1
     elif self.ball.rect.left <= 5 :
       self.ball.velocity=[0,0]
       for i in range(0,4):
-        self.ball.color="black"
+        self.ball.color="blue"
         self.display()
         pygame.display.flip()
-        sleep(0.5)
+        sleep(0.25)
         self.ball.color = "red"
         self.display()
         pygame.display.flip()
+        sleep(0.25)
+      historique_ball.append(Ball(cote_ecran // 2, cote_ecran // (1 / 0.4875), cote_ecran // 40, cote_ecran // 40, "red",[1, random.randint(-5, 5) / 10]))
+      self.ball = historique_ball[-1]
       self.player = Player(cote_ecran // 80, cote_ecran // (1 / 0.4375), 20, cote_ecran // 8, "white", [0, 0])
-      self.ball = Ball(cote_ecran // 2, cote_ecran // (1 / 0.4875), cote_ecran // 40, cote_ecran // 40, "red",[1, random.randint(-5, 5) / 10])
     elif self.ball.rect.right >= cote_ecran :
       self.ball.velocity=[-self.ball.velocity[0],self.ball.rebond()]
     elif self.ball.rect.top <= 0 :
@@ -79,7 +86,9 @@ class Game:
 
   def display(self):
     self.screen.fill("black")
-    self.ball.draw(self.screen)
+  #  self.ball.draw(self.screen)
+    for e in historique_ball:
+      e.draw(self.screen)
     self.player.draw(self.screen)
     pygame.display.flip()
 
