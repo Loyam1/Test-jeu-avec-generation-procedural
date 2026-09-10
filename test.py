@@ -24,8 +24,8 @@ class Player (Entities):
     super().__init__(x, y, longueur, largueur, color, velocity)
 
 class Ball (Entities):
-  def __init__(self, x, y, longueur, largueur, color, velocity):
-    super().__init__(x, y, longueur, largueur, color, velocity)
+#   def __init__(self, x, y, longueur, largueur, color, velocity):
+#    super().__init__(x, y, longueur, largueur, color, velocity)
   def rebond (self):
     return  -random.randint(int(self.velocity[1]*10)-5,int(self.velocity[1]*10)+5)/10
 

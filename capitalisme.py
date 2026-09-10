@@ -96,7 +96,7 @@ def dico(block):
 try:
   f=open("sauvegard.pkl", "rb")
 except FileNotFoundError :
-  new_save("sauvegard.pkl")
+  save_game("sauvegard.pkl")
   f=open("sauvegard.pkl", "rb")
 save = pickle.load(f)
 f.close()
