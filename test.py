@@ -1,24 +1,10 @@
 from itertools import repeat
 from time import sleep
-
+from print_in_screen import *
 import pygame
 import random
 cote_ecran=500
 historique_ball =[]
-
-def print_in_screen (user_instruction, screen):#screen is the pygame.display.set_mode and instruction is a dictionnary {"text": "str", "coordinates": [x, y], "size": int, "color": rgb or "name"} "text" and "coordinates" are required, but the others are not
-  intruction = {"text": user_instruction["text"], "coordinates": user_instruction["coordinates"]}
-  if user_instruction.get("size",30) != 30:
-    intruction["size"] = user_instruction["size"]
-  else:
-    intruction["size"] = 30
-  if user_instruction.get("color","white") != "white":
-    intruction["color"] = user_instruction["color"]
-  else:
-    intruction["color"] = "white"
-  pygame.init()
-  font = pygame.font.Font(None,intruction["size"])
-  screen.blit(font.render(intruction["text"], True, intruction["color"]),intruction["coordinates"])
 
 class Entities:
   def __init__(self, x, y, longueur, largueur, color, velocity):
@@ -103,7 +89,7 @@ class Game:
     for e in historique_ball:
       e.draw(self.screen)
     self.player.draw(self.screen)
-    print_in_screen({"text": f"{self.point}", "coordinates": [0, 0],"color":"red"},screen)
+    print_in_screen(screen,f"{self.point}",[0, 0],color="red")
     pygame.display.flip()
 
   def run(self):

@@ -12,3 +12,7 @@ def load(file):
   save = pickle.load(f)
   f.close()
   return save
+def save(file):
+  save = {"carburantT": round(carburantT), "argent": round(argent, 1), "Ncarburant": round(Ncarburant),"amorti": round(amorti), "Namorti": round(Namorti)}
+  with open('sauvegard.pkl', 'wb') as f:  # open a text file
+    pickle.dump(save, f)
