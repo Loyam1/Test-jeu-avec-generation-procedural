@@ -39,8 +39,8 @@ class Menu(Start):
     self.position_bouton_magasin=position_bouton_magasin
     self.screen = pygame.display.set_mode((longueur_ecran, hauteur_ecran))
     self.interface_actuelle = "menu"
-  def display_menu(self,cleer=True,middle=False):
-    if cleer:
+  def display_menu(self, clear=True, middle=False):
+    if clear:
       self.screen.fill("black")
       pygame.draw.rect(self.screen,"red", pygame.Rect(0,hauteur_ecran//2-(hauteur_ecran//20),longueur_ecran, hauteur_ecran//10))
     if middle:
@@ -97,7 +97,7 @@ class Menu(Start):
     if pygame.key.get_pressed()[K_LEFT] and self.interface_actuelle=="magasin":
       for i in range(100,animation_magasin):
         self.animation_magasin = i
-        self.display_menu(cleer=False,middle=True)
+        self.display_menu(clear=False, middle=True)
         pygame.display.flip()
       self.interface_actuelle="menu"
     sleep(0.2)
