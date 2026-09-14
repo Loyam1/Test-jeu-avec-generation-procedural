@@ -1,5 +1,3 @@
-from xml.sax.saxutils import escape
-
 from save_op import *
 from op import *
 from copy import *
@@ -217,4 +215,3 @@ class Logique (Menu):
 
 pygame.init()
 game = Logique()
-take_key_and_actualise_stop()

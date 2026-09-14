@@ -1,7 +1,4 @@
 import pygame
-import os
-def take_key_and_actualise_stop ():
-  os.remove("temp.pkl")
 def take_key_and_actualise(key_wanted):
   if not hasattr(take_key_and_actualise,"old_keys"):
     take_key_and_actualise.old_keys={}
