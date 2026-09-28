@@ -14,7 +14,7 @@ key_of_chifre={pygame.K_0:0,pygame.K_1:1,pygame.K_2:2,pygame.K_3:3,pygame.K_4:4,
 key_of_letre={pygame.K_a:"a",pygame.K_z:"z",pygame.K_e:"e",pygame.K_r:"r",pygame.K_t:"t",pygame.K_y:"y",pygame.K_u:"u",pygame.K_i:"i",pygame.K_o:"o",pygame.K_p:"p",pygame.K_q:"q",pygame.K_s:"s",pygame.K_d:"d",pygame.K_f:"f",pygame.K_g:"g",pygame.K_h:"h",pygame.K_j:"j",pygame.K_k:"k",pygame.K_l:"l",pygame.K_m:"m",pygame.K_w:"w",pygame.K_x:"x",pygame.K_c:"c",pygame.K_v:"v",pygame.K_b:"b",pygame.K_n:"n"}
 key_of_symbole_up={pygame.K_RIGHTPAREN:"°",pygame.K_ASTERISK:"µ",pygame.K_EQUALS:"+",pygame.K_COLON:"/",pygame.K_SEMICOLON:".",pygame.K_LESS:">",pygame.K_COMMA:"?",pygame.K_EXCLAIM:"§",pygame.K_CARET:"¨",pygame.K_DOLLAR:"£"}
 key_of_symbole_down={pygame.K_7:"è",pygame.K_8:"_",pygame.K_9:"ç",pygame.K_0:"à",pygame.K_CARET:"^",pygame.K_COMMA:",",pygame.K_2:"é",pygame.K_EXCLAIM:"!",pygame.K_3:"\"",pygame.K_DOLLAR:"$",pygame.K_1:"&",pygame.K_5:"(",pygame.K_RIGHTPAREN:")",pygame.K_ASTERISK:"*",pygame.K_EQUALS:"=",pygame.K_4:"'",pygame.K_6:"-",pygame.K_SEMICOLON:";",pygame.K_COLON:":",pygame.K_LESS:">"}
-key_of_symbole_alt={pygame.K_2:"~",pygame.K_3:"#",pygame.K_4:"{",pygame.K_5:"[",pygame.K_6:"|",pygame.K_7:"`",pygame.K_8:"\\",pygame.K_9:"^",pygame.K_0:"@",pygame.K_RIGHTPAREN:"]",pygame.K_DOLLAR:"¤"}
+key_of_symbole_alt={pygame.K_2:"~",pygame.K_3:"#",pygame.K_4:"{",pygame.K_5:"[",pygame.K_6:"|",pygame.K_7:"`",pygame.K_8:"\\",pygame.K_9:"^",pygame.K_0:"@",pygame.K_RIGHTPAREN:"]",pygame.K_EQUALS:"}",pygame.K_DOLLAR:"¤"}
 class Joueur ():
   def __init__(self,save):
     self.carburantT=save["carburantT"]
@@ -210,47 +210,59 @@ class Loging(Start):
   def __init__(self):
     super().__init__()
     self.position_loging=-1
-  def display_loging(self,identifient):
+  def display_loging(self,identifiant):
     self.screen.fill("black")
     pygame.draw.rect(self.screen, "red",pygame.Rect(0, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran,self.hauteur_ecran // 10))
-    print_in_screen(self.screen,f"identifient:  {identifient}",[(self.longueur_ecran // 2 - (self.longueur_ecran // 10)),self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_loging) * self.hauteur_ecran // 10)],size=self.hauteur_ecran // 10)
+    print_in_screen(self.screen,f"identifiant:  {identifiant}",[(self.longueur_ecran // 2 - (self.longueur_ecran // 10)),self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_loging) * self.hauteur_ecran // 10)],size=self.hauteur_ecran // 10)
 
   def loging_logique(self):
     pygame.event.get()
-    identifient=""
+    identifiant=""
     mot_de_passe=""
-    self.display_loging(identifient)
+    self.display_loging(identifiant)
     pygame.display.flip()
     while not take_key_and_actualise(pygame.K_RETURN) or take_key_and_actualise(pygame.K_DOWN) or take_key_and_actualise(pygame.K_UP):
       pygame.event.get()
       for i in key_of_letre:
         if take_key_and_actualise(i):
           if pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
-            identifient += f"{(chr(ord(key_of_letre[i])-32))}"
-            self.display_loging(identifient)
+            identifiant += f"{(chr(ord(key_of_letre[i])-32))}"
+            self.display_loging(identifiant)
             pygame.display.flip()
           else:
-            identifient+=f"{(key_of_letre[i])}"
-            self.display_loging(identifient)
+            identifiant+=f"{(key_of_letre[i])}"
+            self.display_loging(identifiant)
             pygame.display.flip()
-      for i in key_of_chifre:
-        if pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
+      if (pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]) and not pygame.key.get_pressed()[pygame.K_RALT]:
+        for i in key_of_chifre:
           if take_key_and_actualise(i):
-            identifient+=f"{(key_of_chifre[i])}"
-            self.display_loging(identifient)
+            identifiant+=f"{(key_of_chifre[i])}"
+            self.display_loging(identifiant)
             pygame.display.flip()
-      for i in key_of_symbole_down:
-        if take_key_and_actualise(i):
-          identifient += f"{(key_of_symbole_down[i])}"
-          self.display_loging(identifient)
-          pygame.display.flip()
+        for i in key_of_symbole_up:
+          if take_key_and_actualise(i):
+            identifiant+=f"{key_of_symbole_up[i]}"
+            self.display_loging(identifiant)
+            pygame.display.flip()
+      elif not pygame.key.get_pressed()[pygame.K_RALT]:
+        for i in key_of_symbole_down:
+          if take_key_and_actualise(i):
+            identifiant += f"{(key_of_symbole_down[i])}"
+            self.display_loging(identifiant)
+            pygame.display.flip()
+      else:
+        for i in key_of_symbole_alt:
+          if take_key_and_actualise(i):
+            identifiant += f"{(key_of_symbole_alt[i])}"
+            self.display_loging(identifiant)
+            pygame.display.flip()
       if take_key_and_actualise(pygame.K_BACKSPACE):
-        self.longueur_identifient=range(len(identifient)-1)
+        self.longueur_identifient=range(len(identifiant)-1)
         self.identifient2=""
         for i in self.longueur_identifient:
-          self.identifient2+=identifient[i]
-        identifient=self.identifient2
-        self.display_loging(identifient)
+          self.identifient2+=identifiant[i]
+        identifiant=self.identifient2
+        self.display_loging(identifiant)
         pygame.display.flip()
     return True
 class Logique (Menu,Loging):
