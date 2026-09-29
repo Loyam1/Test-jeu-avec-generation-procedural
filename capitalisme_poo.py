@@ -5,8 +5,8 @@ import pickle
 import pygame
 from print_in_screen import *
 from take_key_and_actualise import *
-pseudo="test"
-file = "sauvegard_" + pseudo + ".pkl"
+from chiffrement import chiffrement_mot_de_passe
+
 position_bouton_menu=0
 position_bouton_paramètre = 0
 position_bouton_magasin=0
@@ -30,22 +30,103 @@ class Joueur ():
       self.Pamorti = round(self.Pamorti * 1.4, 1)
 class Start:
   def __init__(self):
-    self.pseudo="pseudo"
     self.running = True
     self.clock = pygame.time.Clock()
-    self.joueur = Joueur(load(file))
-    self.longueur_ecran = load(file)["longueur_ecran"]
-    self.hauteur_ecran = load(file)["hauteur_ecran"]
+    self.longueur_ecran =1200
+    self.hauteur_ecran =600
     self.saved_longueur_ecran=self.longueur_ecran
     self.saved_hauteur_ecran=self.hauteur_ecran
     self.changement_longueur_ecran=self.longueur_ecran
     self.changement_hauteur_ecran=self.hauteur_ecran
     self.screen = pygame.display.set_mode((self.longueur_ecran, self.hauteur_ecran))
     self.animation = self.longueur_ecran // 2 + (self.longueur_ecran // 30)
-    self.move_animation=self.animation
+    self.move_animation = self.animation
     pygame.mouse.set_visible(False)
 
-class Menu(Start):
+class Loging(Start):
+  def __init__(self):
+    super().__init__()
+    self.position_loging=-1
+  def display_loging(self):
+    self.screen.fill("black")
+    pygame.draw.rect(self.screen, "red",pygame.Rect(0, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran,self.hauteur_ecran // 10))
+    print_in_screen(self.screen,f"identifiant:  {self.identifiant}",[(self.longueur_ecran // 2 - (self.longueur_ecran // 10)),self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_loging) * self.hauteur_ecran // 10)],size=self.hauteur_ecran // 10)
+    print_in_screen(self.screen, f"mot de passe:  {self.mot_de_passe}",[(self.longueur_ecran // 2 - (self.longueur_ecran // 10)),self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((self.position_loging) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
+
+  def write (self,text):
+    pygame.event.get()
+    for i in key_of_letre:
+      if take_key_and_actualise(i):
+        if pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
+          text += f"{(chr(ord(key_of_letre[i])-32))}"
+          return text
+        else:
+          text +=f"{(key_of_letre[i])}"
+          return text
+    if (pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]) and not pygame.key.get_pressed()[pygame.K_RALT]:
+      for i in key_of_chifre:
+        if take_key_and_actualise(i):
+          text+=f"{(key_of_chifre[i])}"
+          return text
+      for i in key_of_symbole_up:
+        if take_key_and_actualise(i):
+          text+=f"{key_of_symbole_up[i]}"
+          return text
+    elif not pygame.key.get_pressed()[pygame.K_RALT]:
+      for i in key_of_symbole_down:
+        if take_key_and_actualise(i):
+          text += f"{(key_of_symbole_down[i])}"
+          return text
+    else:
+      for i in key_of_symbole_alt:
+        if take_key_and_actualise(i):
+          text += f"{(key_of_symbole_alt[i])}"
+          return text
+    if take_key_and_actualise(pygame.K_BACKSPACE):
+      longueur_text=range(len(text)-1)
+      text2=""
+      for i in longueur_text:
+        text2+=text[i]
+      text=text2
+      return text
+    return text
+  def loging_logique(self):
+    pygame.event.get()
+    self.identifiant=""
+    self.mot_de_passe=""
+    self.conection=[False," ","identifient"]
+    self.display_loging()
+    pygame.display.flip()
+    while not self.conection[0]:
+      if self.position_loging==-1:
+        self.identifiant=self.write(self.identifiant)
+        self.display_loging()
+        pygame.display.flip()
+        if take_key_and_actualise(pygame.K_RETURN) or take_key_and_actualise(pygame.K_DOWN):
+          self.position_loging=0
+      if self.position_loging==0:
+        self.mot_de_passe = self.write(self.mot_de_passe)
+        self.display_loging()
+        pygame.display.flip()
+        if take_key_and_actualise(pygame.K_UP):
+          self.position_loging = -1
+        elif take_key_and_actualise(pygame.K_RETURN):
+          if utilisateur(self.identifiant,chiffrement_mot_de_passe(self.mot_de_passe))[1]:
+            self.pseudo=self.identifiant
+            self.file = "sauvegard_" + self.pseudo + ".pkl"
+            self.joueur = Joueur(load(self.file))
+            self.longueur_ecran = load(self.file)["longueur_ecran"]
+            self.hauteur_ecran = load(self.file)["hauteur_ecran"]
+            self.saved_longueur_ecran = self.longueur_ecran
+            self.saved_hauteur_ecran = self.hauteur_ecran
+            self.changement_longueur_ecran = self.longueur_ecran
+            self.changement_hauteur_ecran = self.hauteur_ecran
+            self.screen = pygame.display.set_mode((self.longueur_ecran, self.hauteur_ecran))
+            self.animation = self.longueur_ecran // 2 + (self.longueur_ecran // 30)
+            self.move_animation = self.animation
+            return
+
+class Menu(Loging):
   def __init__(self):
     super().__init__()
     self.position_bouton_menu = position_bouton_menu
@@ -107,7 +188,7 @@ class Menu(Start):
     if take_key_and_actualise(pygame.K_RETURN):
       if self.interface_actuelle=="menu":
         if  self.position_bouton_menu==-2:
-          save_game(file, self.joueur.carburantT, self.joueur.argent, self.joueur.Ncarburant, self.joueur.amorti,self.joueur.Namorti,self.saved_hauteur_ecran,self.saved_longueur_ecran)
+          save_game(self.file, self.joueur.carburantT, self.joueur.argent, self.joueur.Ncarburant, self.joueur.amorti,self.joueur.Namorti,self.saved_hauteur_ecran,self.saved_longueur_ecran)
           self.running=False
         elif self.position_bouton_menu==-1:
           for i in range(-self.animation, -100, 2):
@@ -198,80 +279,19 @@ class Menu(Start):
         elif self.position_bouton_paramètre==-2:
           self.saved_hauteur_ecran=self.hauteur_ecran
           self.saved_longueur_ecran=self.longueur_ecran
-
-
-    if take_key_and_actualise(pygame.K_LEFT) and (self.interface_actuelle=="magasin"or"paramètre"):
+    if take_key_and_actualise(pygame.K_LEFT) and (self.interface_actuelle=="magasin"or self.interface_actuelle=="paramètre"):
       for i in range(100, self.animation, 2):
         self.move_animation = i
         self.display_menu(clear=False, middle=True)
         pygame.display.flip()
       self.interface_actuelle="menu"
-class Loging(Start):
-  def __init__(self):
-    super().__init__()
-    self.position_loging=-1
-  def display_loging(self,identifiant):
-    self.screen.fill("black")
-    pygame.draw.rect(self.screen, "red",pygame.Rect(0, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran,self.hauteur_ecran // 10))
-    print_in_screen(self.screen,f"identifiant:  {identifiant}",[(self.longueur_ecran // 2 - (self.longueur_ecran // 10)),self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_loging) * self.hauteur_ecran // 10)],size=self.hauteur_ecran // 10)
 
-  def loging_logique(self):
-    pygame.event.get()
-    identifiant=""
-    mot_de_passe=""
-    self.display_loging(identifiant)
-    pygame.display.flip()
-    while not take_key_and_actualise(pygame.K_RETURN) or take_key_and_actualise(pygame.K_DOWN) or take_key_and_actualise(pygame.K_UP):
-      pygame.event.get()
-      for i in key_of_letre:
-        if take_key_and_actualise(i):
-          if pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]:
-            identifiant += f"{(chr(ord(key_of_letre[i])-32))}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-          else:
-            identifiant+=f"{(key_of_letre[i])}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-      if (pygame.key.get_pressed()[pygame.K_LSHIFT] or pygame.key.get_pressed()[pygame.K_RSHIFT]) and not pygame.key.get_pressed()[pygame.K_RALT]:
-        for i in key_of_chifre:
-          if take_key_and_actualise(i):
-            identifiant+=f"{(key_of_chifre[i])}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-        for i in key_of_symbole_up:
-          if take_key_and_actualise(i):
-            identifiant+=f"{key_of_symbole_up[i]}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-      elif not pygame.key.get_pressed()[pygame.K_RALT]:
-        for i in key_of_symbole_down:
-          if take_key_and_actualise(i):
-            identifiant += f"{(key_of_symbole_down[i])}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-      else:
-        for i in key_of_symbole_alt:
-          if take_key_and_actualise(i):
-            identifiant += f"{(key_of_symbole_alt[i])}"
-            self.display_loging(identifiant)
-            pygame.display.flip()
-      if take_key_and_actualise(pygame.K_BACKSPACE):
-        self.longueur_identifient=range(len(identifiant)-1)
-        self.identifient2=""
-        for i in self.longueur_identifient:
-          self.identifient2+=identifiant[i]
-        identifiant=self.identifient2
-        self.display_loging(identifiant)
-        pygame.display.flip()
-    return True
 class Logique (Menu,Loging):
   def __init__(self):
     super().__init__()
     self.run()
   def run(self):
     self.loging_logique()
-    self.display_loging()
     self.display_menu()
     pygame.display.flip()
     while self.running:

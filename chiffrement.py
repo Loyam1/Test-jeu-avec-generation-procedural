@@ -18,11 +18,11 @@ def chiffrement(key):
   while not a == b:
     a += 1
     c = random.randint(0, 10000000)
-  print(c)
+  return c
 def chiffrement_mot_de_passe(mot_de_passe):
   convertion=""
   for i in mot_de_passe:
     convertion+=str(ord(i))
   convertion=int(convertion)
-  chiffrement(convertion)
-chiffrement_mot_de_passe("Mayol")
+  return chiffrement(convertion)
+#"Loyam",7889701
