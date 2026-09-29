@@ -25,4 +25,3 @@ def chiffrement_mot_de_passe(mot_de_passe):
     convertion+=str(ord(i))
   convertion=int(convertion)
   return chiffrement(convertion)
-#"Loyam",7889701

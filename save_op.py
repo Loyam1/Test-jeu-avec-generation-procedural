@@ -14,9 +14,9 @@ def load(file):
   return save
 def utilisateur(nom,mot_de_passe_chiffré):
   try:
-    f = open("utilisateur.pkl", "rb")
+    f = open(".sauvegard/utilisateur.pkl", "rb")
   except FileNotFoundError:
-    with open("utilisateur.pkl", 'wb') as f:
+    with open(".sauvegard/utilisateur.pkl", 'wb') as f:
       pickle.dump({}, f)
     return [False,False]
   liste_utilisateur = pickle.load(f)
@@ -30,13 +30,13 @@ def utilisateur(nom,mot_de_passe_chiffré):
   f.close
 def add_utilisateur(nom,mot_de_passe_chiffré):
   try:
-    f = open("utilisateur.pkl", "rb")
+    f = open(".sauvegard/utilisateur.pkl", "rb")
   except FileNotFoundError:
-    with open("utilisateur.pkl", 'wb') as f:
+    with open(".sauvegard/utilisateur.pkl", 'wb') as f:
       pickle.dump({}, f)
   liste_utilisateur = pickle.load(f)
   f.close
   liste_utilisateur[nom] = mot_de_passe_chiffré
-  with open("utilisateur.pkl", 'wb') as f:
+  with open(".sauvegard/utilisateur.pkl", 'wb') as f:
     pickle.dump(liste_utilisateur, f)
   f.close()
