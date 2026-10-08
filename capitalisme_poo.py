@@ -1,7 +1,12 @@
 from Menu import *
-
-class Logique (Menu):
+from Session import Session
+from Joueur import Joueur
+#class Logique (Menu):
+class Logique() : 
   def __init__(self):
+    self.joueur= Joueur()
+    self.session= Session()    
+    self.menu= Menu(self.joueur, self.session)
     super().__init__()
     self.run()
   def run(self):

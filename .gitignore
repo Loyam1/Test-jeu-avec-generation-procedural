@@ -1,3 +1,5 @@
 .venv
 .idea
 *.pkl
+__pycache__
+!/.sauvegarde/utilisateur.pkl

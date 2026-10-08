@@ -1,8 +1,11 @@
 from Session import *
 from Joueur import *
-class Menu(Session,Joueur):
-  def __init__(self):
-    super().__init__()
+#class Menu(Session,Joueur):
+class Menu():
+  def __init__(self,joueur,session):
+   # super().__init__()
+   self.joueur=joueur
+   self.session=session
   def display_menu(self, clear=True, middle=False):
     if clear:
       self.screen.fill("black")
