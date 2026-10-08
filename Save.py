@@ -20,7 +20,7 @@ def utilisateur(nom,mot_de_passe_chiffré):
       pickle.dump({}, f)
     return [False,False]
   liste_utilisateur = pickle.load(f)
-  if not liste_utilisateur.get(nom,"cet uttilisateur n'existe pas")=="cet uttilisateur n'existe pas":
+  if nom in liste_utilisateur.keys():
     if liste_utilisateur[nom]==mot_de_passe_chiffré:
       return [True,True]
     else:

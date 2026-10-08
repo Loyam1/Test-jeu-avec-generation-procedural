@@ -1,7 +1,7 @@
 import pygame
 from Chargement_sauvegarde import *
 class Session(Chargement_sauvegarde):
-  def __init__(self):
+  def __init__(self,):
     super().__init__()
     self.file=self.save["file"]
     self.longueur_ecran = self.save["longueur_ecran"]
