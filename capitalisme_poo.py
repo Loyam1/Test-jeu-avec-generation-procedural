@@ -7,14 +7,13 @@ class Logique() :
     self.joueur= Joueur()
     self.session= Session()    
     self.menu= Menu(self.joueur, self.session)
-    super().__init__()
     self.run()
   def run(self):
-    self.display_menu()
+    self.menu.display_menu()
     pygame.display.flip()
-    while self.running:
-      self.handling_events_menu()
-      self.clock.tick(60)
+    while self.session.running:
+      self.menu.handling_events_menu()
+      self.session.clock.tick(60)
 
 pygame.init()
 game=Logique()

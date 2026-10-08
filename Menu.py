@@ -1,5 +1,8 @@
-from Session import *
-from Joueur import *
+import pygame
+from print_in_screen import print_in_screen
+from take_key_and_actualise import take_key_and_actualise
+from Save import save_game
+from write import write
 #class Menu(Session,Joueur):
 class Menu():
   def __init__(self,joueur,session):
@@ -8,37 +11,37 @@ class Menu():
    self.session=session
   def display_menu(self, clear=True, middle=False):
     if clear:
-      self.screen.fill("black")
-      pygame.draw.rect(self.screen,"red", pygame.Rect(0,self.hauteur_ecran//2-(self.hauteur_ecran//20),self.longueur_ecran, self.hauteur_ecran//10))
+      self.joueur.screen.fill("black")
+      pygame.draw.rect(self.joueur.screen,"red", pygame.Rect(0,self.session.hauteur_ecran//2-(self.session.hauteur_ecran//20),self.session.longueur_ecran, self.session.hauteur_ecran//10))
     if middle:
-      pygame.draw.rect(self.screen, "black", pygame.Rect(0, 0, self.move_animation * 2, self.hauteur_ecran))
-      pygame.draw.rect(self.screen, "red", pygame.Rect(0, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.move_animation * 2, self.hauteur_ecran // 10))
+      pygame.draw.rect(self.joueur.screen, "black", pygame.Rect(0, 0, self.move_animation * 2, self.session.hauteur_ecran))
+      pygame.draw.rect(self.joueur.screen, "red", pygame.Rect(0, self.session.hauteur_ecran // 2 - (self.session.hauteur_ecran // 20), self.move_animation * 2, self.session.hauteur_ecran // 10))
 
-    pygame.draw.rect(self.screen, "black", pygame.Rect((self.longueur_ecran - (self.longueur_ecran//4)) + (self.move_animation - self.animation), round(self.hauteur_ecran / 100 * 3), self.longueur_ecran // 4, self.hauteur_ecran // 10))
-    print_in_screen(self.screen, f"{self.argent}@", [(self.longueur_ecran - (self.longueur_ecran//4)) + (self.move_animation - self.animation), round(self.hauteur_ecran / 100 * 3)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, "stop", [(self.longueur_ecran // 2 - (self.longueur_ecran//30)) + (self.move_animation - self.animation), self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((2 + self.position_bouton_menu) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, "paramètre", [(self.longueur_ecran // 2 - (self.longueur_ecran//30)) + (self.move_animation - self.animation), self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_bouton_menu) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen,"jouer", [(self.longueur_ecran//2-(self.longueur_ecran//30)) + (self.move_animation - self.animation), self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - (self.position_bouton_menu * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, "magasin", [(self.longueur_ecran // 2 -(self.longueur_ecran//30)) + (self.move_animation - self.animation), self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((-1 + self.position_bouton_menu) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
+    pygame.draw.rect(self.joueur.screen, "black", pygame.Rect((self.session.longueur_ecran - (self.session.longueur_ecran//4)) + (self.move_animation - self.session.animation), round(self.session.hauteur_ecran / 100 * 3), self.session.longueur_ecran // 4, self.session.hauteur_ecran // 10))
+    print_in_screen(self.joueur.screen, f"{self.joueur.argent}@", [(self.session.longueur_ecran - (self.session.longueur_ecran//4)) + (self.move_animation - self.session.animation), round(self.session.hauteur_ecran / 100 * 3)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, "stop", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran//30)) + (self.move_animation - self.session.animation), self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((2 + self.session.position_bouton_menu) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, "paramètre", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran//30)) + (self.move_animation - self.session.animation), self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((1 + self.session.position_bouton_menu) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen,"jouer", [(self.session.longueur_ecran//2-(self.session.longueur_ecran//30)) + (self.move_animation - self.session.animation), self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - (self.session.position_bouton_menu * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, "magasin", [(self.session.longueur_ecran // 2 -(self.session.longueur_ecran//30)) + (self.move_animation - self.session.animation), self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((-1 + self.session.position_bouton_menu) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
 
   def display_magasin(self):
-    pygame.draw.rect(self.screen, "black", pygame.Rect((self.longueur_ecran // 2 - (self.longueur_ecran//6)) + self.move_animation, 0, self.longueur_ecran, self.hauteur_ecran))
-    pygame.draw.rect(self.screen, "red", pygame.Rect((self.longueur_ecran // 2 - (self.longueur_ecran//6)) + self.move_animation, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran, self.hauteur_ecran // 10))
-    print_in_screen(self.screen, f"amortie          {self.Pamorti}@", [(self.longueur_ecran // 2 - (self.longueur_ecran//30)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_bouton_magasin) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, f"carburant      {self.Pcarburant}@", [(self.longueur_ecran // 2 - (self.longueur_ecran//30)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - (self.position_bouton_magasin * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, f"tu veux gagner 100@? clique ici!", [(self.longueur_ecran // 2 - (self.longueur_ecran // 6)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((-15 + self.position_bouton_magasin) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
+    pygame.draw.rect(self.joueur.screen, "black", pygame.Rect((self.session.longueur_ecran // 2 - (self.session.longueur_ecran//6)) + self.move_animation, 0, self.session.longueur_ecran, self.session.hauteur_ecran))
+    pygame.draw.rect(self.joueur.screen, "red", pygame.Rect((self.session.longueur_ecran // 2 - (self.session.longueur_ecran//6)) + self.move_animation, self.session.hauteur_ecran // 2 - (self.session.hauteur_ecran // 20), self.session.longueur_ecran, self.session.hauteur_ecran // 10))
+    print_in_screen(self.joueur.screen, f"amortie          {self.joueur.Pamorti}@", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran//30)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((1 + self.session.position_bouton_magasin) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, f"carburant      {self.joueur.Pcarburant}@", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran//30)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - (self.session.position_bouton_magasin * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, f"tu veux gagner 100@? clique ici!", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 6)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((-15 + self.session.position_bouton_magasin) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
 
   def display_parametre(self):
-    pygame.draw.rect(self.screen, "black", pygame.Rect((self.longueur_ecran // 2 - (self.longueur_ecran // 6)) + self.move_animation, 0, self.longueur_ecran, self.hauteur_ecran))
-    pygame.draw.rect(self.screen, "red", pygame.Rect((self.longueur_ecran // 2 - (self.longueur_ecran // 6)) + self.move_animation, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran, self.hauteur_ecran // 10))
-    print_in_screen(self.screen, "sauvgarder les paramètres écran", [(self.longueur_ecran // 2 - (self.longueur_ecran // 6)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((2 + self.position_bouton_parametre) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, f"longueur de l'écran: {self.changement_longueur_ecran}", [(self.longueur_ecran // 2 - (self.longueur_ecran // 10)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - ((1 + self.position_bouton_parametre) * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
-    print_in_screen(self.screen, f"hauteur de l'écran:   {self.changement_hauteur_ecran}", [(self.longueur_ecran // 2 - (self.longueur_ecran // 10)) + self.move_animation, self.hauteur_ecran // 2 - round(self.hauteur_ecran / 100 * 3) - (self.position_bouton_parametre * self.hauteur_ecran // 10)], size=self.hauteur_ecran // 10)
+    pygame.draw.rect(self.joueur.screen, "black", pygame.Rect((self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 6)) + self.move_animation, 0, self.session.longueur_ecran, self.session.hauteur_ecran))
+    pygame.draw.rect(self.joueur.screen, "red", pygame.Rect((self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 6)) + self.move_animation, self.session.hauteur_ecran // 2 - (self.session.hauteur_ecran // 20), self.session.longueur_ecran, self.session.hauteur_ecran // 10))
+    print_in_screen(self.joueur.screen, "sauvgarder les paramètres écran", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 6)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((2 + self.session.position_bouton_parametre) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, f"longueur de l'écran: {self.changement_longueur_ecran}", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 10)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - ((1 + self.session.position_bouton_parametre) * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
+    print_in_screen(self.joueur.screen, f"hauteur de l'écran:   {self.changement_hauteur_ecran}", [(self.session.longueur_ecran // 2 - (self.session.longueur_ecran // 10)) + self.move_animation, self.session.hauteur_ecran // 2 - round(self.session.hauteur_ecran / 100 * 3) - (self.session.position_bouton_parametre * self.session.hauteur_ecran // 10)], size=self.session.hauteur_ecran // 10)
 
   def handling_events_menu(self):
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-        self.running = False
+        self.session.running = False
     def up_or_down():
       if take_key_and_actualise(pygame.K_UP) or take_key_and_actualise(pygame.K_z):
         return 1
@@ -48,78 +51,78 @@ class Menu():
         return 0
     self.move_interface=up_or_down()
     if self.move_interface!= 0:
-      if self.interface_actuelle=="menu":
-        self.position_bouton_menu+=self.move_interface
+      if self.session.interface_actuelle=="menu":
+        self.session.position_bouton_menu+=self.move_interface
         self.display_menu()
-      elif self.interface_actuelle == "magasin":
-        self.position_bouton_magasin += self.move_interface
+      elif self.session.interface_actuelle == "magasin":
+        self.session.position_bouton_magasin += self.move_interface
         self.display_magasin()
-      elif self.interface_actuelle=="paramètre":
-        self.position_bouton_parametre+=self.move_interface
+      elif self.session.interface_actuelle=="paramètre":
+        self.session.position_bouton_parametre+=self.move_interface
         self.display_parametre()
       pygame.display.flip()
     if take_key_and_actualise(pygame.K_RETURN):
-      if self.interface_actuelle=="menu":
-        if  self.position_bouton_menu==-2:
-          save_game(self.file, self.carburantT, self.argent, self.Ncarburant, self.amorti,self.Namorti,self.saved_hauteur_ecran,self.saved_longueur_ecran)
-          self.running=False
-        elif self.position_bouton_menu==-1:
-          for i in range(-self.animation, -100, 2):
+      if self.session.interface_actuelle=="menu":
+        if  self.session.position_bouton_menu==-2:
+          save_game(self.session.file, self.joueur.carburantT, self.joueur.argent, self.joueur.Ncarburant, self.joueur.amorti,self.joueur.Namorti,self.saved_hauteur_ecran,self.saved_longueur_ecran)
+          self.session.running=False
+        elif self.session.position_bouton_menu==-1:
+          for i in range(-self.session.animation, -100, 2):
             self.move_animation=-i
             self.display_menu()
             self.display_parametre()
             pygame.display.flip()
-          self.interface_actuelle="paramètre"
-        elif self.position_bouton_menu==0:
+          self.session.interface_actuelle="paramètre"
+        elif self.session.position_bouton_menu==0:
           print("jouer")
-        elif self.position_bouton_menu==1:
-          for i in range(-self.animation, -100, 2):
+        elif self.session.position_bouton_menu==1:
+          for i in range(-self.session.animation, -100, 2):
             self.move_animation=-i
             self.display_menu()
             self.display_magasin()
             pygame.display.flip()
-          self.interface_actuelle="magasin"
-      elif self.interface_actuelle=="magasin":
-        if self.position_bouton_magasin == -1 and self.Pamorti<= self.argent:
-          self.argent = round(self.argent-self.Pamorti,1)
-          self.Namorti += 1
-          self.amorti += 1
-          self.Pamorti=round(self.Pamorti*1.4,1)
+          self.session.interface_actuelle="magasin"
+      elif self.session.interface_actuelle=="magasin":
+        if self.session.position_bouton_magasin == -1 and self.joueur.Pamorti<= self.joueur.argent:
+          self.joueur.argent = round(self.joueur.argent-self.joueur.Pamorti,1)
+          self.joueur.Namorti += 1
+          self.joueur.amorti += 1
+          self.joueur.Pamorti=round(self.joueur.Pamorti*1.4,1)
           self.display_magasin()
           self.display_menu(clear=False,middle=True)
           pygame.display.flip()
-        elif self.position_bouton_magasin == 0:
-          self.argent = round(self.argent - self.Pcarburant, 1)
-          self.Ncarburant += 1
-          self.carburantT *= 1.5
-          self.Pcarburant = round(self.Pcarburant * 1.5, 1)
+        elif self.session.position_bouton_magasin == 0:
+          self.joueur.argent = round(self.joueur.argent - self.joueur.Pcarburant, 1)
+          self.joueur.Ncarburant += 1
+          self.joueur.carburantT *= 1.5
+          self.joueur.Pcarburant = round(self.joueur.Pcarburant * 1.5, 1)
           self.display_magasin()
           self.display_menu(clear=False, middle=True)
           pygame.display.flip()
-        elif self.position_bouton_magasin == 15:
-          self.argent+=100
+        elif self.session.position_bouton_magasin == 15:
+          self.joueur.argent+=100
           self.display_menu(clear=False,middle=True)
           pygame.display.flip()
-      elif self.interface_actuelle=='paramètre':
-        if self.position_bouton_parametre==0:
-          self.changement_hauteur_ecran = 0
+      elif self.session.interface_actuelle=='paramètre':
+        if self.session.position_bouton_parametre==0:
           self.display_parametre()
           pygame.display.flip()
           escape = False
           while not take_key_and_actualise(pygame.K_RETURN) and not escape:
             self.changement_hauteur_ecran = write(self.changement_hauteur_ecran, letre=False, symbole=False)
             self.display_parametre()
+            self.changement_hauteur_ecran = 0
             pygame.display.flip()
             if pygame.key.get_pressed()[pygame.K_z] and (
                 pygame.key.get_pressed()[pygame.K_RCTRL] or pygame.key.get_pressed()[pygame.K_LCTRL]):
               escape = True
               self.changement_hauteur_ecran = self.changement_hauteur_ecran
           self.changement_hauteur_ecran = self.changement_hauteur_ecran
-          self.screen = pygame.display.set_mode((self.longueur_ecran, self.hauteur_ecran))
+          self.joueur.screen = pygame.display.set_mode((self.session.longueur_ecran, self.session.hauteur_ecran))
           self.display_menu()
           self.display_parametre()
           pygame.display.flip()
-        elif self.position_bouton_parametre==-1:
+        elif self.session.position_bouton_parametre==-1:
           self.changement_longueur_ecran = 0
           self.display_parametre()
           pygame.display.flip()
@@ -130,18 +133,18 @@ class Menu():
             pygame.display.flip()
             if pygame.key.get_pressed()[pygame.K_z]and (pygame.key.get_pressed()[pygame.K_RCTRL] or pygame.key.get_pressed()[pygame.K_LCTRL]):
               escape = True
-              self.changement_hauteur_ecran = self.longueur_ecran
-          self.longueur_ecran = self.changement_longueur_ecran
-          self.screen = pygame.display.set_mode((self.longueur_ecran, self.hauteur_ecran))
+              self.changement_hauteur_ecran = self.session.longueur_ecran
+          self.session.longueur_ecran = self.changement_longueur_ecran
+          self.joueur.screen = pygame.display.set_mode((self.session.longueur_ecran, self.session.hauteur_ecran))
           self.display_menu()
           self.display_parametre()
           pygame.display.flip()
-        elif self.position_bouton_parametre==-2:
-          self.saved_hauteur_ecran=self.hauteur_ecran
-          self.saved_longueur_ecran=self.longueur_ecran
-    if take_key_and_actualise(pygame.K_LEFT) and (self.interface_actuelle=="magasin"or self.interface_actuelle=="paramètre"):
-      for i in range(100, self.animation, 2):
+        elif self.session.position_bouton_parametre==-2:
+          self.saved_hauteur_ecran=self.session.hauteur_ecran
+          self.saved_longueur_ecran=self.session.longueur_ecran
+    if take_key_and_actualise(pygame.K_LEFT) and (self.session.interface_actuelle=="magasin"or self.session.interface_actuelle=="paramètre"):
+      for i in range(100, self.session.animation, 2):
         self.move_animation = i
         self.display_menu(clear=False, middle=True)
         pygame.display.flip()
-      self.interface_actuelle="menu"
+      self.session.interface_actuelle="menu"

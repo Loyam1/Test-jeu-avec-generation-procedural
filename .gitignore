@@ -2,4 +2,4 @@
 .idea
 *.pkl
 __pycache__
-!/.sauvegarde/utilisateur.pkl
+!/.sauvegarde/sauvegarde_Test.pkl
