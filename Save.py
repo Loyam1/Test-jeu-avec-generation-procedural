@@ -40,3 +40,9 @@ def add_utilisateur(nom,mot_de_passe_chiffré):
   with open(".sauvegarde/utilisateur.pkl", 'wb') as f:
     pickle.dump(liste_utilisateur, f)
   f.close()
+def loading_save(identifiant) :
+  file=f".sauvegarde/sauvegarde_{identifiant}.pkl"
+  save = load(file)
+  save["file"]=file
+  save["pseudo"]=identifiant
+  return save

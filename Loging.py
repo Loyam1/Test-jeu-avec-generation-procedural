@@ -18,6 +18,7 @@ class Loging(Start):
     self.user_name_allredy_take=False
     self.different_password =False
     self.loging_logique()
+
   def display_loging(self):
     self.started_screen.fill("black")
     pygame.draw.rect(self.started_screen, "red",pygame.Rect(0, self.hauteur_ecran // 2 - (self.hauteur_ecran // 20), self.longueur_ecran,self.hauteur_ecran // 10))

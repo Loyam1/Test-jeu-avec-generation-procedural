@@ -1,7 +1,7 @@
-from Chargement_sauvegarde import *
-class Joueur (Chargement_sauvegarde):
-  def __init__(self):
-    super().__init__()
+from Loging import *
+class Joueur ():
+  def __init__(self,save):
+    self.save =save
     self.pseudo=self.save["pseudo"]
     self.carburantT=self.save["carburantT"]
     self.argent = self.save["argent"]
