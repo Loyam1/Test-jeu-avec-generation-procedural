@@ -5,7 +5,7 @@ key_of_symbole_up={pygame.K_RIGHTPAREN:"°",pygame.K_ASTERISK:"µ",pygame.K_EQUA
 key_of_symbole_down={pygame.K_7:"è",pygame.K_8:"_",pygame.K_9:"ç",pygame.K_0:"à",pygame.K_CARET:"^",pygame.K_COMMA:",",pygame.K_2:"é",pygame.K_EXCLAIM:"!",pygame.K_3:"\"",pygame.K_DOLLAR:"$",pygame.K_1:"&",pygame.K_5:"(",pygame.K_RIGHTPAREN:")",pygame.K_ASTERISK:"*",pygame.K_EQUALS:"=",pygame.K_4:"'",pygame.K_6:"-",pygame.K_SEMICOLON:";",pygame.K_COLON:":",pygame.K_LESS:">"}
 key_of_symbole_alt={pygame.K_2:"~",pygame.K_3:"#",pygame.K_4:"{",pygame.K_5:"[",pygame.K_6:"|",pygame.K_7:"`",pygame.K_8:"\\",pygame.K_9:"^",pygame.K_0:"@",pygame.K_RIGHTPAREN:"]",pygame.K_EQUALS:"}",pygame.K_DOLLAR:"¤",pygame.K_e:"€"}
 str_to_type_text={"<class 'str'>":str, "<class 'int'>":int}
-def write(text,chifre=True,letre=True,symbole=True):
+def listening(text,chifre=True,letre=True,symbole=True):
   pygame.event.get()
   type_text=str(type(text))
   text=str(text)

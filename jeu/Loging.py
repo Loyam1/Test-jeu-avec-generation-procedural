@@ -47,13 +47,13 @@ class Loging(Start):
         if event.type == pygame.QUIT:
           self.running = False
       if self.position_loging==-1:
-        self.identifiant=write(self.identifiant)
+        self.identifiant=listening(self.identifiant)
         self.display_loging()
         pygame.display.flip()
         if take_key_and_actualise(pygame.K_RETURN) or take_key_and_actualise(pygame.K_UP):
           self.position_loging=0
       if self.position_loging==0:
-        self.mot_de_passe = write(self.mot_de_passe)
+        self.mot_de_passe = listening(self.mot_de_passe)
         self.display_loging()
         pygame.display.flip()
         if take_key_and_actualise(pygame.K_DOWN):
@@ -89,7 +89,7 @@ class Loging(Start):
             self.display_loging()
             pygame.display.flip()
         else:
-          self.confirmation_mot_de_passe = write(self.confirmation_mot_de_passe)
+          self.confirmation_mot_de_passe = listening(self.confirmation_mot_de_passe)
           self.display_loging()
           pygame.display.flip()
           if take_key_and_actualise(pygame.K_RETURN):

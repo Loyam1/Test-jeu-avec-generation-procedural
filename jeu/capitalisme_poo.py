@@ -15,10 +15,10 @@ from .Save import loading_save
 class Logique() : 
   def __init__(self):
     self.loging = Loging()
-    self.loging.loging_logique()
     self.save = loading_save(self.loging.identifiant)
     self.session = Session(self.save)
-    self.joueur = Joueur(self.save)
+    self.joueur = Joueur(self.session.save)
+   
     self.menu = Menu(self.joueur, self.session)
 
     self.running= True

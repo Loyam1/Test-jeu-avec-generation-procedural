@@ -2,7 +2,7 @@ import pygame
 from .print_in_screen import print_in_screen
 from .take_key_and_actualise import take_key_and_actualise
 from .Save import save_game
-from .write import write
+from .write import listening
 #class Menu(Session,Joueur):
 class Menu():
   def __init__(self,joueur,session):
@@ -109,7 +109,7 @@ class Menu():
           pygame.display.flip()
           escape = False
           while not take_key_and_actualise(pygame.K_RETURN) and not escape:
-            self.changement_hauteur_ecran = write(self.changement_hauteur_ecran, letre=False, symbole=False)
+            self.changement_hauteur_ecran = listening(self.changement_hauteur_ecran, letre=False, symbole=False)
             self.display_parametre()
             self.changement_hauteur_ecran = 0
             pygame.display.flip()
@@ -128,7 +128,7 @@ class Menu():
           pygame.display.flip()
           escape = False
           while not take_key_and_actualise(pygame.K_RETURN) and not escape:
-            self.changement_longueur_ecran=write(self.changement_longueur_ecran,letre=False,symbole=False)
+            self.changement_longueur_ecran=listening(self.changement_longueur_ecran,letre=False,symbole=False)
             self.display_parametre()
             pygame.display.flip()
             if pygame.key.get_pressed()[pygame.K_z]and (pygame.key.get_pressed()[pygame.K_RCTRL] or pygame.key.get_pressed()[pygame.K_LCTRL]):
