@@ -2,8 +2,8 @@ from kandinsky import *
 from ion import *
 from time import *
 import kandinsky
-from Save import *
-from op import *
+from jeu.Save import *
+from .op import *
 from copy import *
 import pickle
 fill_rect(0,0,320,222,'black')

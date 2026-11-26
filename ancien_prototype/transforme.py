@@ -1,7 +1,7 @@
 from time import *
 from copy import *
 from math import *
-from trouve import *
+from .trouve import *
 def trensfo (block3,couche3,direction3):
   blockM3=block3
   blockF3={}

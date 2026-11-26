@@ -1,4 +1,4 @@
-from Loging import *
+from .Loging import *
 class Joueur ():
   def __init__(self,save):
     self.save =save

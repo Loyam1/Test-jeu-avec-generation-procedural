@@ -1,6 +1,6 @@
 from itertools import repeat
 from time import sleep
-from print_in_screen import *
+from jeu.print_in_screen import *
 import pygame
 import random
 cote_ecran=500

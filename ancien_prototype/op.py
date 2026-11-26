@@ -1,5 +1,5 @@
-from trouve import *
-from transforme import *
+from .trouve import *
+from .transforme import *
 
 
 def opstart(block1, couche1, direction1):

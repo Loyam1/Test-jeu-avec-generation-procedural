@@ -1,8 +1,8 @@
 import pygame
-from print_in_screen import print_in_screen
-from take_key_and_actualise import take_key_and_actualise
-from Save import save_game
-from write import write
+from .print_in_screen import print_in_screen
+from .take_key_and_actualise import take_key_and_actualise
+from .Save import save_game
+from .write import write
 #class Menu(Session,Joueur):
 class Menu():
   def __init__(self,joueur,session):

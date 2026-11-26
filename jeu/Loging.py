@@ -1,8 +1,8 @@
-from print_in_screen import *
-from Save import *
-from Start import *
-from chiffrement import *
-from write import *
+from .print_in_screen import *
+from .Save import *
+from .Start import *
+from .chiffrement import *
+from .write import *
 class Loging(Start):
   def __init__(self):
     super().__init__()

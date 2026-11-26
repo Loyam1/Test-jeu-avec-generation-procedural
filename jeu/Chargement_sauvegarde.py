@@ -1,4 +1,4 @@
-from Loging import *
+from .Loging import *
 class Chargement_sauvegarde(Loging):
   def __init__(self):
     super().__init__()

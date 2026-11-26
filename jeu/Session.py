@@ -1,5 +1,5 @@
 import pygame
-from Loging import *
+from .Loging import *
 class Session():
   def __init__(self, save):
     self.save =save
